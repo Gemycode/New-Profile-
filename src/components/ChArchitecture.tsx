@@ -1,47 +1,48 @@
 import { useState } from "react"
+import type { ArchitectureContent, ArchNodeId } from "../data/sections"
 import { useCountUp, useInView } from "../lib/motion"
 import { Chapter } from "./Chapter"
 import { Reveal } from "./Reveal"
 import styles from "./ChArchitecture.module.css"
 
-type NodeId = "web" | "desktop" | "parent" | "site" | "api" | "pg" | "redis" | "pay" | "eta"
+type NodeId = ArchNodeId
 
-const nodes: Record<NodeId, { label: string; sub: string; x: number; y: number; desc: string }> = {
-  web: { label: "ERP web", sub: "React · TanStack Query", x: 110, y: 120, desc: "The staff console: admissions, student files, attendance, grades, finance and reports. Pages appear or hide based on the signed-in user's effective permissions." },
-  desktop: { label: "Desktop app", sub: "Tauri v2", x: 110, y: 240, desc: "The same ERP packaged as a desktop app with auto-update, built in CI. I set up the Tauri build and the release workflow." },
-  parent: { label: "Parent portal", sub: "React · i18n", x: 110, y: 360, desc: "Parents follow their children, enroll them in the next stage, reserve bus seats and pay fees online." },
-  site: { label: "Public site", sub: "Admissions · news", x: 110, y: 480, desc: "The school's public website. Registration requests from it land directly in the ERP's admissions pipeline." },
-  api: { label: "NestJS API", sub: "683 endpoints · 219 test files", x: 500, y: 300, desc: "One modular NestJS API on Prisma. I own the Control (exams and grades), Attendance, ETA e-receipts, HR, Logistics and Payments modules, plus the legacy data import." },
-  pg: { label: "PostgreSQL", sub: "Prisma 7 · 200+ models", x: 870, y: 120, desc: "Students, enrollments, ledgers, receipts, buses, HR and permissions. Year transitions snapshot the ledger before they run." },
-  redis: { label: "Redis", sub: "Upstash", x: 870, y: 240, desc: "Caches each user's effective permissions and pages, with targeted invalidation when a role changes, and holds short-lived tickets for the live SSE streams." },
-  pay: { label: "Fawaterak", sub: "Cards · valU · Fawry", x: 870, y: 360, desc: "Online parent payments. The API checks eligibility (bus reservation, installment, purpose) before it creates a payment, then settles it into the ledger." },
-  eta: { label: "Tax Authority", sub: "ETA e-receipts", x: 870, y: 480, desc: "Every receipt is signed and submitted to the Egyptian Tax Authority. The API handles the callbacks and keeps the receipt chain state." },
+// Fixed diagram positions (viewBox 1000×600). Only the text comes from content.
+const positions: Record<NodeId, { x: number; y: number }> = {
+  web: { x: 110, y: 120 },
+  desktop: { x: 110, y: 240 },
+  parent: { x: 110, y: 360 },
+  site: { x: 110, y: 480 },
+  api: { x: 500, y: 300 },
+  pg: { x: 870, y: 120 },
+  redis: { x: 870, y: 240 },
+  pay: { x: 870, y: 360 },
+  eta: { x: 870, y: 480 },
 }
-
-const modules = ["Control", "Attendance", "Finance", "Logistics", "HR", "Payments", "Authorization", "Admissions"]
 const left: NodeId[] = ["web", "desktop", "parent", "site"]
 const right: NodeId[] = ["pg", "redis", "pay", "eta"]
 
-export function ChArchitecture() {
+export function ChArchitecture({ number, content }: { number: number; content: ArchitectureContent }) {
   const [active, setActive] = useState<NodeId>("api")
   const [ref, inView] = useInView<HTMLDivElement>({ threshold: 0.3 })
-  const endpoints = useCountUp(683, inView, 2200)
+  const counter = useCountUp(content.counterValue, inView, 2200)
+  const nodes = Object.fromEntries(
+    (Object.keys(positions) as NodeId[]).map((id) => [id, { ...positions[id], ...content.nodes[id] }]),
+  ) as Record<NodeId, { x: number; y: number; label: string; sub: string; desc: string }>
+  const modules = content.modules.slice(0, 8) // the API box fits 8 chips (2 × 4)
   const isLinked = (id: NodeId) => active === "api" || active === id
 
   return (
-    <Chapter id="architecture" number={2} about="the architecture" theme="dark" labelledBy="arch-title">
+    <Chapter id="architecture" number={number} about="the architecture" theme="dark" labelledBy="arch-title">
       <div className={styles.head}>
-        <Reveal id="arch-title" className={styles.title} lines={["How Salam", "is *wired*"]} />
-        <p className="lead">
-          Four clients, one modular API, and two outside systems that move real money. Select any part to see what it does
-          and which parts I built.
-        </p>
+        <Reveal id="arch-title" className={styles.title} lines={content.titleLines} />
+        <p className="lead">{content.lead}</p>
       </div>
 
       <div ref={ref} className={styles.stage}>
         <div className={styles.ghost} aria-hidden="true">
-          <span className={styles.ghostNum}>{endpoints}</span>
-          <span className={styles.ghostLabel}>API endpoints</span>
+          <span className={styles.ghostNum}>{counter}</span>
+          <span className={styles.ghostLabel}>{content.counterLabel}</span>
         </div>
 
         <div className={styles.browser}>
@@ -49,10 +50,10 @@ export function ChArchitecture() {
             <i />
             <i />
             <i />
-            <span>api.salamacademy.edu.eg</span>
+            <span>{content.url}</span>
           </div>
 
-          <svg className={styles.diagram} viewBox="0 0 1000 600" role="group" aria-label="Salam ERP architecture diagram">
+          <svg className={styles.diagram} viewBox="0 0 1000 600" role="group" aria-label="Architecture diagram">
             {left.map((id) => (
               <path key={id} d={`M ${nodes[id].x + 85} ${nodes[id].y} C 290 ${nodes[id].y}, 290 300, 380 300`} className={`${styles.edge} ${isLinked(id) ? styles.edgeOn : ""}`} />
             ))}
@@ -65,15 +66,15 @@ export function ChArchitecture() {
               role="button"
               tabIndex={0}
               aria-pressed={active === "api"}
-              aria-label="NestJS API, Prisma · Swagger · Zod"
+              aria-label={`${nodes.api.label}, ${content.apiBoxSub}`}
               onClick={() => setActive("api")}
               onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setActive("api"))}
             >
               <rect x="380" y="140" width="240" height="320" rx="22" />
-              <text x="500" y="182" className={styles.apiTitle}>NestJS API</text>
-              <text x="500" y="204" className={styles.nodeSub}>Prisma · Swagger · Zod</text>
+              <text x="500" y="182" className={styles.apiTitle}>{nodes.api.label}</text>
+              <text x="500" y="204" className={styles.nodeSub}>{content.apiBoxSub}</text>
               {modules.map((m, i) => (
-                <g key={m} transform={`translate(${i % 2 ? 506 : 398}, ${232 + Math.floor(i / 2) * 52})`}>
+                <g key={`${i}-${m}`} transform={`translate(${i % 2 ? 506 : 398}, ${232 + Math.floor(i / 2) * 52})`}>
                   <rect width="96" height="38" rx="10" className={styles.mod} />
                   <text x="48" y="24" className={styles.modText}>{m}</text>
                 </g>

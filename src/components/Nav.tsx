@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { site } from "../data/site"
 import { scrollToId } from "../lib/motion"
 import { Logo } from "./Logo"
 import styles from "./Nav.module.css"
@@ -10,7 +9,7 @@ const items = [
   { id: "contact", label: "Contact" },
 ]
 
-export function Nav() {
+export function Nav({ name, cv }: { name: string; cv: string }) {
   const [onAccent, setOnAccent] = useState(false)
 
   // Switch to dark text while an accent-colored chapter sits under the bar.
@@ -27,7 +26,7 @@ export function Nav() {
     <header className={`${styles.nav} ${onAccent ? styles.onAccent : ""}`}>
       <a href="#top" className={styles.brand} onClick={(e) => (e.preventDefault(), scrollToId("top"))}>
         <Logo size={30} />
-        <span>{site.name}</span>
+        <span>{name}</span>
       </a>
       <nav aria-label="Main">
         <ul className={styles.links}>
@@ -39,7 +38,7 @@ export function Nav() {
             </li>
           ))}
           <li>
-            <a href={site.cv} target="_blank" rel="noopener" className={styles.cv}>
+            <a href={cv} target="_blank" rel="noopener" className={styles.cv}>
               CV
             </a>
           </li>

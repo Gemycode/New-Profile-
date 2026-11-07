@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from "react"
-import { site } from "../data/site"
 import { scrollToId } from "../lib/motion"
 import styles from "./MobileBar.module.css"
 
@@ -25,12 +24,13 @@ const owner: Record<string, string> = {
   voice: "work",
   stack: "stack",
   impact: "stack",
+  reviews: "contact",
   how: "contact",
   contact: "contact",
 }
 
 /** App-style glass tab bar for phones. Replaces the top links and the floating pill below 768px. */
-export function MobileBar() {
+export function MobileBar({ cv }: { cv: string }) {
   const [active, setActive] = useState("top")
   const [theme, setTheme] = useState("dark")
 
@@ -66,7 +66,7 @@ export function MobileBar() {
           </li>
         ))}
         <li>
-          <a href={site.cv} target="_blank" rel="noopener" className={styles.item}>
+          <a href={cv} target="_blank" rel="noopener" className={styles.item}>
             {icon(<><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10.5A.5.5 0 0 1 6.5 20V4a.5.5 0 0 1 .5-.5z" /><path d="M12 10v6m-2.5-2.5L12 16l2.5-2.5" /></>)}
             <span>CV</span>
           </a>

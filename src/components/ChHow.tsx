@@ -1,32 +1,21 @@
-import { site } from "../data/site"
+import type { Contact } from "../lib/content"
 import { useInView } from "../lib/motion"
 import { Chapter } from "./Chapter"
 import { Reveal } from "./Reveal"
 import styles from "./ChHow.module.css"
 
-const modes = [
-  { title: "Remote, full-time", body: "Backend or full-stack roles on a product team. I'm comfortable owning modules end to end." },
-  { title: "Freelance projects", body: "APIs, admin consoles, mobile apps or a complete product, from the contract to the deploy." },
-  { title: "Technical rescue", body: "A backend that's slow, insecure or hard to change: audit first, then fix it in small, tested steps." },
-]
+type Props = { number: number; modes: Array<{ title: string; body: string }>; steps: Array<{ t: string; b: string }>; contact: Contact }
 
-const steps = [
-  { n: "01", t: "Contract first", b: "An API contract or OpenAPI spec the frontend and backend both build against." },
-  { n: "02", t: "Small slices", b: "Features shipped in phases, each one deployable and reviewed." },
-  { n: "03", t: "Tests and CI", b: "Unit and integration tests, typechecks and automated deploys." },
-  { n: "04", t: "Handover", b: "READMEs, runbooks and environment templates so the next person isn't guessing." },
-]
-
-export function ChHow() {
+export function ChHow({ number, modes, steps, contact }: Props) {
   const [ref] = useInView<HTMLDivElement>({ threshold: 0.2 })
   return (
-    <Chapter id="how" number={7} about="working together" theme="accent" labelledBy="how-title">
+    <Chapter id="how" number={number} about="working together" theme="accent" labelledBy="how-title">
       <div className={styles.top}>
         <Reveal id="how-title" className={styles.title} lines={["How I", "*work*"]} />
         <figure className={styles.portrait}>
-          <img src="/img/abdullah.webp" alt={`Portrait of ${site.name}`} width={720} height={720} loading="lazy" />
+          <img src="/img/abdullah.webp" alt={`Portrait of ${contact.name}`} width={720} height={720} loading="lazy" />
           <figcaption>
-            <span className={styles.status}>Available</span> {site.timezone}
+            <span className={styles.status}>Available</span> {contact.timezone}
           </figcaption>
         </figure>
       </div>
@@ -41,9 +30,9 @@ export function ChHow() {
       </div>
 
       <ol className={styles.steps}>
-        {steps.map((s) => (
-          <li key={s.n}>
-            <span>{s.n}</span>
+        {steps.map((s, i) => (
+          <li key={s.t}>
+            <span>{String(i + 1).padStart(2, "0")}</span>
             <strong>{s.t}</strong>
             <p>{s.b}</p>
           </li>

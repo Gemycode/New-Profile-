@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { featured, imgSrc, more, small, type Project } from "../data/projects"
+import { imgSrc, type Project, type SmallProject } from "../data/projects"
 import { gsap, isCoarsePointer, prefersReducedMotion, useInView } from "../lib/motion"
 import { Chapter } from "./Chapter"
 import { ProjectDialog } from "./ProjectDialog"
 import { Reveal } from "./Reveal"
 import styles from "./ChWork.module.css"
 
-export function ChWork() {
+type Props = { number: number; featured: Project[]; more: Project[]; small: SmallProject[] }
+
+export function ChWork({ number, featured, more, small }: Props) {
   const [open, setOpen] = useState<Project | null>(null)
   const [hover, setHover] = useState<number | null>(null)
   const listRef = useRef<HTMLDivElement>(null)
@@ -30,10 +32,10 @@ export function ChWork() {
   }, [])
 
   return (
-    <Chapter id="work" number={3} about="the work" theme="card" labelledBy="work-title">
+    <Chapter id="work" number={number} about="the work" theme="card" labelledBy="work-title">
       <div className={styles.head}>
         <Reveal id="work-title" className={styles.title} lines={["Selected", "*work*", "2025 — 26"]} />
-        <CardStack />
+        <CardStack picks={featured.slice(0, 3)} />
       </div>
 
       <div ref={listRef} className={styles.rows} onPointerLeave={() => setHover(null)}>
@@ -116,8 +118,7 @@ function MoreCard({ project, index, onOpen }: { project: Project; index: number;
 }
 
 /** Three tilted covers that fan out on hover. */
-function CardStack() {
-  const picks = featured.slice(0, 3)
+function CardStack({ picks }: { picks: Project[] }) {
   return (
     <div className={styles.stack} aria-hidden="true">
       {picks.map((p, i) => (
