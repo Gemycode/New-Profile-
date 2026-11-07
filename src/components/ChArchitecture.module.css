@@ -1,0 +1,231 @@
+.head {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: end;
+}
+.title {
+  font-size: var(--display-lg);
+}
+
+.stage {
+  position: relative;
+  margin-top: clamp(48px, 7vw, 96px);
+  display: grid;
+  place-items: center;
+}
+
+.ghost {
+  position: absolute;
+  inset: -6% 0 auto;
+  display: grid;
+  justify-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+.ghostNum {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(9rem, 34vw, 34rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(168, 181, 197, 0.16);
+  background: linear-gradient(180deg, rgba(120, 149, 178, 0.14), transparent 75%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-variant-numeric: tabular-nums;
+}
+.ghostLabel {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(168, 181, 197, 0.5);
+}
+
+.browser {
+  position: relative;
+  width: min(1120px, 100%);
+  margin-top: clamp(80px, 14vw, 220px);
+  background: rgba(23, 34, 53, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 60px 120px -40px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text);
+}
+.chrome i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+.chrome span {
+  margin: 0 auto;
+  padding: 3px 14px;
+  background: rgba(11, 18, 32, 0.6);
+  border-radius: 999px;
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 12px;
+}
+.diagram text {
+  text-anchor: middle;
+  font-family: var(--font-body);
+}
+
+.edge {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+  transition: stroke 0.4s;
+}
+.edgeOn {
+  stroke: var(--accent);
+  stroke-dasharray: 6 8;
+  animation: flow 1.2s linear infinite;
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.node,
+.api {
+  cursor: pointer;
+  outline: none;
+}
+.node rect,
+.api > rect {
+  fill: rgba(11, 18, 32, 0.85);
+  stroke: var(--border);
+  stroke-width: 1.5;
+  transition:
+    fill 0.3s,
+    stroke 0.3s;
+}
+.node:hover rect,
+.api:hover > rect,
+.node:focus-visible rect,
+.api:focus-visible > rect {
+  stroke: var(--accent-soft);
+}
+.selected rect,
+.selected > rect {
+  stroke: var(--accent);
+  fill: rgba(120, 149, 178, 0.16);
+}
+.node:focus-visible rect,
+.api:focus-visible > rect {
+  stroke-width: 3;
+}
+.nodeTitle {
+  fill: var(--heading);
+  font-size: 17px;
+  font-weight: 600;
+}
+.nodeSub {
+  fill: var(--text);
+  font-size: 12.5px;
+}
+.apiTitle {
+  fill: var(--heading);
+  font-size: 22px;
+  font-weight: 600;
+}
+.mod {
+  fill: rgba(120, 149, 178, 0.12) !important;
+  stroke: rgba(120, 149, 178, 0.35) !important;
+  stroke-width: 1 !important;
+}
+.modText {
+  fill: var(--heading);
+  font-size: 12.5px;
+}
+
+.panel {
+  border-top: 1px solid var(--border);
+  padding: 22px clamp(18px, 3vw, 32px) 26px;
+  display: grid;
+  gap: 6px;
+  min-height: 150px;
+}
+.panel h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  color: var(--heading);
+}
+.panel p {
+  max-width: 72ch;
+  font-size: 0.98rem;
+}
+
+.mobile {
+  display: none;
+}
+@media (max-width: 900px) {
+  .head {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .diagram {
+    display: none;
+  }
+  .mobile {
+    display: grid;
+    gap: 6px;
+    padding: 18px 14px 20px;
+  }
+  .tier {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+  }
+  .flowArrow {
+    color: var(--accent);
+  }
+  .tierRow {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .tierRow:has(> :only-child) {
+    grid-template-columns: 1fr;
+  }
+  .chip {
+    display: grid;
+    gap: 2px;
+    padding: 10px 12px;
+    text-align: left;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(11, 18, 32, 0.85);
+    color: var(--text);
+    font-size: 0.75rem;
+  }
+  .chip strong {
+    color: var(--heading);
+    font-size: 0.92rem;
+  }
+  .chipOn {
+    border-color: var(--accent);
+    background: rgba(120, 149, 178, 0.18);
+  }
+}

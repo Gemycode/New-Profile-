@@ -1,0 +1,58 @@
+.title {
+  font-size: var(--display-lg);
+}
+.metrics {
+  margin-top: clamp(48px, 7vw, 96px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.metric {
+  display: grid;
+  gap: 6px;
+  padding: 8px clamp(14px, 2vw, 28px) 24px;
+  border-left: 1px solid var(--surface-line);
+}
+.metric:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+.value {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3.4rem, 8vw, 7.5rem);
+  line-height: 0.9;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+.label {
+  color: var(--heading);
+  font-weight: 600;
+}
+.note {
+  font-size: 0.88rem;
+}
+.source {
+  margin-top: 28px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+.physics {
+  position: relative;
+  height: clamp(260px, 34vw, 420px);
+  margin: 24px calc(var(--gutter) * -1) calc(clamp(96px, 12vw, 180px) * -1);
+  touch-action: pan-y;
+}
+.physics canvas {
+  position: absolute;
+  inset: 0;
+}
+@media (max-width: 860px) {
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 32px;
+  }
+  .metric:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+}

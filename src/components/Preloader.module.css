@@ -1,0 +1,37 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--gutter);
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1), border-radius 0.9s;
+}
+.leaving {
+  transform: translateY(-100%);
+  border-radius: 0 0 50% 50% / 0 0 12% 12%;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.name {
+  font-size: clamp(2.2rem, 6vw, 5rem);
+}
+.count {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 12vw, 10rem);
+  line-height: 0.8;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.bar {
+  margin-top: 24px;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left;
+}
