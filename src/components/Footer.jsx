@@ -20,24 +20,24 @@ const Footer = () => {
 
   const services = [
     "MERN Stack Development",
-    "Flutter Mobile Apps",
+    "React Native Mobile Apps",
     "API Development",
     "Database Design",
     "Technical Consulting",
   ]
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-2">
             <h3 className="text-2xl font-bold text-gradient mb-4">Abdullah Gamal</h3>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              Full-Stack Developer specializing in MERN Stack and Flutter development. Creating scalable web
+            <p className="text-slate-400 mb-6 leading-relaxed">
+              Full-Stack Developer specializing in MERN Stack and React Native development. Creating scalable web
               applications and cross-platform mobile solutions.
             </p>
-            <div className="flex items-center space-x-2 text-gray-400">
+            <div className="flex items-center space-x-2 text-slate-400">
               <span>Made with</span>
               <Heart className="w-4 h-4 text-red-500" fill="currentColor" />
               <span>and lots of coffee</span>
@@ -57,7 +57,7 @@ const Footer = () => {
                         element.scrollIntoView({ behavior: "smooth" })
                       }
                     }}
-                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                    className="text-slate-400 hover:text-white transition-colors duration-200"
                   >
                     {link.name}
                   </button>
@@ -72,7 +72,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service}>
-                  <span className="text-gray-400">{service}</span>
+                  <span className="text-slate-400">{service}</span>
                 </li>
               ))}
             </ul>
@@ -80,12 +80,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© {currentYear} Abdullah Gamal. All rights reserved.</p>
+        <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-slate-400 text-sm">© {currentYear} Abdullah Gamal. All rights reserved.</p>
 
           <button
             onClick={scrollToTop}
-            className="mt-4 md:mt-0 p-2 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors duration-200"
+            className="mt-4 md:mt-0 p-2 bg-slate-600 hover:bg-slate-700 rounded-full transition-colors duration-200"
           >
             <ArrowUp className="w-5 h-5" />
           </button>
