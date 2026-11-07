@@ -1,0 +1,28 @@
+.section {
+  position: relative;
+  outline: none;
+}
+
+.overlap {
+  margin-top: calc(var(--radius-sheet) * -1.6);
+}
+
+.sheet {
+  position: relative;
+  background: var(--surface);
+  color: var(--surface-text);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  padding: clamp(132px, 13vw, 190px) var(--gutter) clamp(96px, 12vw, 180px);
+  box-shadow: 0 -30px 80px -30px rgba(0, 0, 0, 0.6);
+  will-change: transform;
+  overflow: hidden;
+}
+
+.corners {
+  position: absolute;
+  inset: clamp(76px, 7vw, 100px) var(--gutter) auto;
+  display: flex;
+  justify-content: space-between;
+  color: var(--surface-text);
+  pointer-events: none;
+}

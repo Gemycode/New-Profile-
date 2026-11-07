@@ -1,0 +1,195 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 96px var(--gutter) clamp(88px, 10vh, 120px);
+  overflow: hidden;
+  outline: none;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(120, 149, 178, 0.14), transparent 70%),
+    var(--bg);
+}
+
+.gooDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.goo {
+  position: absolute;
+  inset: 0;
+  filter: url(#goo);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.blob {
+  position: absolute;
+  left: 50%;
+  bottom: -18vh;
+  width: 34vmin;
+  height: 34vmin;
+  margin-left: -17vmin;
+  border-radius: 50%;
+  background: var(--card);
+  animation: drift 14s ease-in-out infinite alternate;
+}
+.blob:nth-child(2) {
+  margin-left: -34vmin;
+  width: 26vmin;
+  height: 26vmin;
+  background: #1f2e46;
+  animation-duration: 17s;
+}
+.blob:nth-child(3) {
+  margin-left: 4vmin;
+  width: 22vmin;
+  height: 22vmin;
+  background: var(--accent-deep);
+  animation-duration: 11s;
+}
+@keyframes drift {
+  to {
+    translate: 6vmin -5vmin;
+  }
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+}
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 55% at 45% 55%, rgba(11, 18, 32, 0.65), transparent 75%);
+  pointer-events: none;
+}
+.scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.cssCards {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  pointer-events: none;
+}
+.cssCard {
+  position: absolute;
+  width: clamp(150px, 26vw, 360px);
+  border-radius: 14px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+  opacity: 0.5;
+  animation: float 7s ease-in-out infinite alternate;
+  animation-delay: calc(var(--n) * -1.6s);
+}
+.cssCard:nth-child(1) { top: 13%; left: -5%; transform: rotateY(24deg) rotateZ(-4deg); }
+.cssCard:nth-child(2) { top: 11%; right: -6%; transform: rotateY(-24deg) rotateZ(4deg); }
+.cssCard:nth-child(3) { top: 44%; left: -10%; transform: rotateY(20deg) rotateZ(3deg); opacity: 0.35; }
+.cssCard:nth-child(4) { top: 40%; right: -11%; transform: rotateY(-20deg) rotateZ(-3deg); opacity: 0.35; }
+@keyframes float {
+  to {
+    translate: 0 -14px;
+  }
+}
+
+.corners {
+  position: absolute;
+  inset: 84px var(--gutter) auto;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.8;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-size: var(--display-xl);
+  display: grid;
+}
+.title :global(.rv-line):nth-child(2) {
+  justify-self: end;
+  color: var(--accent-soft);
+}
+.title :global(.rv-line):nth-child(3) {
+  padding-left: 8vw;
+}
+
+.bottom {
+  margin-top: clamp(28px, 5vh, 56px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.role {
+  display: grid;
+  gap: 2px;
+  color: var(--heading);
+}
+.name {
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+.muted {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.side {
+  display: grid;
+  justify-items: end;
+  gap: 18px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: 420px;
+}
+.chips li {
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: rgba(23, 34, 53, 0.6);
+  backdrop-filter: blur(6px);
+}
+.scroll {
+  color: var(--heading);
+  font-weight: 500;
+  display: inline-flex;
+  gap: 8px;
+}
+.scroll span {
+  animation: nudge 1.8s ease-in-out infinite;
+}
+@keyframes nudge {
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@media (max-width: 767px) {
+  .title :global(.rv-line):nth-child(3) {
+    padding-left: 0;
+  }
+  .side {
+    justify-items: start;
+  }
+  .chips {
+    justify-content: flex-start;
+  }
+  .cssCards {
+    display: none; /* phones: text-only hero, lighter first load */
+  }
+}
