@@ -53,8 +53,21 @@
   border: 1px solid currentColor;
   border-radius: 999px;
 }
-@media (max-width: 520px) {
-  .brand span {
+@media (max-width: 767px) {
+  /* Phones use the bottom tab bar; keep only the brand up top. */
+  .links {
     display: none;
+  }
+  .nav {
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+  .brand {
+    padding: 5px 14px 5px 5px;
+    border-radius: 999px;
+    color: var(--heading);
+    background: rgba(11, 18, 32, 0.6);
+    border: 1px solid rgba(120, 149, 178, 0.28);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
   }
 }

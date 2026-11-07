@@ -87,3 +87,9 @@
   flex-wrap: wrap;
   font-size: 0.8rem;
 }
+
+@media (max-width: 767px) {
+  .wrap {
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+  }
+}

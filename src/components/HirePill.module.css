@@ -60,3 +60,9 @@
     box-shadow: 0 0 0 0 rgba(126, 226, 168, 0);
   }
 }
+
+@media (max-width: 767px) {
+  .pill {
+    display: none;
+  }
+}
