@@ -12,6 +12,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
     if (!d) return
     if (project && !d.open) {
       d.showModal()
+      document.documentElement.classList.add("dialog-open")
       getLenis()?.stop()
     }
     if (!project && d.open) d.close()
@@ -21,6 +22,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
     const d = ref.current
     if (!d) return
     const handle = () => {
+      document.documentElement.classList.remove("dialog-open")
       getLenis()?.start()
       onClose()
     }
