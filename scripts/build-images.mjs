@@ -1,10 +1,10 @@
-// Converts the PNG project images in ./portfolio-images into WebP files in ./public/work
+// Converts the PNG project images in ./portfolio-images (or the folder given as an argument) into WebP files in ./public/work
 // at two widths (800 and 1600). Run with: npm run images
 import { readdir, mkdir, stat } from "node:fs/promises"
 import path from "node:path"
 import sharp from "sharp"
 
-const SRC = path.resolve("portfolio-images")
+const SRC = path.resolve(process.argv[2] || "portfolio-images")
 const OUT = path.resolve("public/work")
 const WIDTHS = [800, 1600]
 
