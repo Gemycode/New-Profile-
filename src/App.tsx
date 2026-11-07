@@ -3,6 +3,7 @@ import { ScrollTrigger, startSmoothScroll } from "./lib/motion"
 import { Preloader } from "./components/Preloader"
 import { Nav } from "./components/Nav"
 import { HirePill } from "./components/HirePill"
+import { MobileBar } from "./components/MobileBar"
 import { Hero } from "./components/Hero"
 import { ChProblem } from "./components/ChProblem"
 import { ChArchitecture } from "./components/ChArchitecture"
@@ -50,6 +51,7 @@ export default function App() {
         <ChContact />
       </main>
       <HirePill />
+      <MobileBar />
     </>
   )
 }
