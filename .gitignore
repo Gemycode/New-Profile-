@@ -1,27 +1,21 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# build output (built in CI)
+/dist
 
 # env files
 .env*
 
-# vercel
-.vercel
+# OS
+.DS_Store
 
-# typescript
+# private working files (client details, raw image sources); never publish
+/PROJECTS.md
+/IMAGE_PROMPT.md
+/images.json
+/generation-notes.txt
+/portfolio-images/
+/portfolio-images.zip
+
 *.tsbuildinfo
-next-env.d.ts
