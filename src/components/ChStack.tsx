@@ -1,14 +1,15 @@
 import { useState } from "react"
-import { stack, type StackItem } from "../data/stack"
+import type { StackItem } from "../data/stack"
 import { Chapter } from "./Chapter"
 import styles from "./ChStack.module.css"
 
-export function ChStack() {
+export function ChStack({ number, stack }: { number: number; stack: StackItem[] }) {
   const [activeId, setActiveId] = useState(stack[0].id)
   const active = stack.find((s) => s.id === activeId) ?? stack[0]
+  const activeKey = active.id
 
   return (
-    <Chapter id="stack" number={5} about="the stack" theme="dark" labelledBy="stack-title" className={styles.wrap}>
+    <Chapter id="stack" number={number} about="the stack" theme="dark" labelledBy="stack-title" className={styles.wrap}>
       <div className={styles.haze} aria-hidden="true">
         <span />
         <span />
@@ -23,9 +24,9 @@ export function ChStack() {
             key={s.id}
             role="tab"
             id={`tab-${s.id}`}
-            aria-selected={s.id === activeId}
+            aria-selected={s.id === activeKey}
             aria-controls="stack-panel"
-            className={s.id === activeId ? styles.on : ""}
+            className={s.id === activeKey ? styles.on : ""}
             onClick={() => setActiveId(s.id)}
           >
             {s.pill}

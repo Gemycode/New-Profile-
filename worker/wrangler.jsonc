@@ -1,0 +1,35 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Content (projects, reviews, settings). Existing database, created in the Cloudflare dashboard.
+  // The code uses the binding name (env.DB), so the database name can differ from it.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "portfolio-db",
+      "database_id": "eae41bc6-0e6d-41e7-8b28-ac45a3ca2651",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Uploaded images and the CV (existing private bucket), served back through GET /media/*.
+  // Keep the bucket private: the Worker is the only way in, so no public bucket URL is needed.
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "portfolio-images" }],
+
+  "vars": {
+    // Public URL prefix for uploaded files (overridden in .dev.vars for local development).
+    "MEDIA_BASE_URL": "https://api.eng-abdullahgamal.site/media/",
+    // Origins allowed to call the API. Firebase preview channels and localhost are allowed in code.
+    "ALLOWED_ORIGINS": "https://eng-abdullahgamal.site,https://www.eng-abdullahgamal.site,https://my-portofolio-9d70c.web.app,https://my-portofolio-9d70c.firebaseapp.com"
+  },
+
+  // Set with `npx wrangler secret put <NAME>`; locally they come from worker/.dev.vars.
+  "secrets": { "required": ["OWNER_EMAIL", "OWNER_PASSWORD_HASH", "TOKEN_SECRET"] },
+
+  "routes": [{ "pattern": "api.eng-abdullahgamal.site", "custom_domain": true }]
+}

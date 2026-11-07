@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { site } from "../data/site"
+import { telHref, type Contact } from "../lib/content"
 import { prefersReducedMotion } from "../lib/motion"
 import { Chapter } from "./Chapter"
 import { Logo } from "./Logo"
@@ -7,7 +7,7 @@ import { Reveal } from "./Reveal"
 import { mountRays } from "./rays"
 import styles from "./ChContact.module.css"
 
-export function ChContact() {
+export function ChContact({ number, contact }: { number: number; contact: Contact }) {
   const raysRef = useRef<HTMLCanvasElement>(null)
   const [copied, setCopied] = useState(false)
 
@@ -18,16 +18,16 @@ export function ChContact() {
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(site.email)
+      await navigator.clipboard.writeText(contact.email)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch {
-      window.location.href = `mailto:${site.email}`
+      window.location.href = `mailto:${contact.email}`
     }
   }
 
   return (
-    <Chapter id="contact" number={8} about="getting in touch" theme="dark" labelledBy="contact-title" className={styles.wrap}>
+    <Chapter id="contact" number={number} about="getting in touch" theme="dark" labelledBy="contact-title" className={styles.wrap}>
       <canvas ref={raysRef} className={styles.rays} aria-hidden="true" />
       <div className={styles.mark} aria-hidden="true">
         <Logo size={120} title="" />
@@ -36,8 +36,8 @@ export function ChContact() {
       <Reveal id="contact-title" className={styles.title} lines={["Let's build", "something *solid*"]} />
 
       <div className={styles.emailRow}>
-        <a href={`mailto:${site.email}`} className={styles.email}>
-          {site.email}
+        <a href={`mailto:${contact.email}`} className={styles.email}>
+          {contact.email}
         </a>
         <button className={styles.copy} onClick={copy}>
           {copied ? "Copied" : "Copy"}
@@ -47,12 +47,14 @@ export function ChContact() {
         </span>
       </div>
 
-      <a href={site.phone.href} className={styles.phone}>
-        {site.phone.display}
-      </a>
+      {contact.phone && (
+        <a href={telHref(contact.phone)} className={styles.phone}>
+          {contact.phone}
+        </a>
+      )}
 
       <ul className={styles.links}>
-        {site.links.map((l) => (
+        {contact.links.map((l) => (
           <li key={l.label}>
             <a href={l.href} target="_blank" rel="noopener me">
               {l.label} ↗
@@ -60,7 +62,7 @@ export function ChContact() {
           </li>
         ))}
         <li>
-          <a href={site.cv} target="_blank" rel="noopener">
+          <a href={contact.cv} target="_blank" rel="noopener">
             Download CV ↓
           </a>
         </li>
@@ -68,9 +70,9 @@ export function ChContact() {
 
       <footer className={styles.footer}>
         <span>
-          © {new Date().getFullYear()} {site.fullName}
+          © {new Date().getFullYear()} {contact.fullName}
         </span>
-        <span>{site.title} · {site.location}</span>
+        <span>{contact.title} · {contact.location}</span>
       </footer>
     </Chapter>
   )

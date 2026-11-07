@@ -1,11 +1,12 @@
 import { useEffect, useRef } from "react"
-import { metrics } from "../data/site"
 import { prefersReducedMotion, useCountUp, useInView } from "../lib/motion"
 import { Chapter } from "./Chapter"
 import { Reveal } from "./Reveal"
 import styles from "./ChImpact.module.css"
 
-export function ChImpact() {
+type Metric = { value: number; label: string; note: string }
+
+export function ChImpact({ number, metrics }: { number: number; metrics: ReadonlyArray<Metric> }) {
   const [ref, inView] = useInView<HTMLDivElement>({ threshold: 0.25 })
   const physicsRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -24,7 +25,7 @@ export function ChImpact() {
   }, [inView])
 
   return (
-    <Chapter id="impact" number={6} about="the impact" theme="card" labelledBy="impact-title">
+    <Chapter id="impact" number={number} about="the impact" theme="card" labelledBy="impact-title">
       <Reveal id="impact-title" className={styles.title} lines={["One year,", "in *numbers*"]} />
       <div ref={ref} className={styles.metrics}>
         {metrics.map((m, i) => (

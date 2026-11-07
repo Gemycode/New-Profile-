@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react"
-import { featured, imgSrc } from "../data/projects"
-import { site } from "../data/site"
+import { imgSrc } from "../data/projects"
+import type { Contact } from "../lib/content"
 import { gsap, isCoarsePointer, isSmallScreen, prefersReducedMotion, scrollToId } from "../lib/motion"
 import { Reveal } from "./Reveal"
 import styles from "./Hero.module.css"
 
-const covers = [...featured.map((p) => p.cover.base), "04-el-azhar-agency-cover"]
-const stackChips = ["NestJS", "PostgreSQL", "Prisma", "Redis", "BullMQ", "Socket.IO", "Flutter", "React"]
+type Props = { ready: boolean; covers: string[]; chips: string[]; contact: Contact }
 
-export function Hero({ ready }: { ready: boolean }) {
+export function Hero({ ready, covers, chips, contact }: Props) {
   const sceneRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLElement>(null)
   const [webgl, setWebgl] = useState(false)
@@ -32,6 +31,8 @@ export function Hero({ ready }: { ready: boolean }) {
       cancelled = true
       dispose?.()
     }
+    // The covers only matter for the first mount of the scene.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])
 
   // Goo blobs swell as the hero scrolls away.
@@ -93,13 +94,13 @@ export function Hero({ ready }: { ready: boolean }) {
 
         <div className={styles.bottom}>
           <p className={`${styles.role} fade-up ${ready ? "is-in" : ""}`} style={{ ["--d" as string]: "600ms" }}>
-            <span className={styles.name}>{site.name}</span>
-            <span>{site.title}</span>
-            <span className={styles.muted}>Based in {site.location} · Open to remote & freelance</span>
+            <span className={styles.name}>{contact.name}</span>
+            <span>{contact.title}</span>
+            <span className={styles.muted}>Based in {contact.location} · Open to remote & freelance</span>
           </p>
           <div className={`${styles.side} fade-up ${ready ? "is-in" : ""}`} style={{ ["--d" as string]: "800ms" }}>
             <ul className={styles.chips} aria-label="Core stack">
-              {stackChips.map((s) => (
+              {chips.map((s) => (
                 <li key={s}>{s}</li>
               ))}
             </ul>

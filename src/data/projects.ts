@@ -360,5 +360,7 @@ export const small: SmallProject[] = [
   },
 ]
 
-export const imgSrc = (base: string, w: 800 | 1600 = 800) => `/work/${base}-${w}.webp`
+// `base` is either a built-in file name ("01-the-ride-cover" in /public/work) or an absolute
+// URL prefix from the API ("https://api…/media/projects/<id>"). Both have -800/-1600.webp variants.
+export const imgSrc = (base: string, w: 800 | 1600 = 800) => `${base.includes("/") ? base : `/work/${base}`}-${w}.webp`
 export const imgSrcSet = (base: string) => `${imgSrc(base, 800)} 800w, ${imgSrc(base, 1600)} 1600w`
