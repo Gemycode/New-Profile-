@@ -21,5 +21,5 @@ export const metrics = [
   { value: 657, label: "Commits shipped", note: "in the last 12 months" },
   { value: 14, label: "Projects delivered", note: "since November 2025" },
   { value: 431, label: "API endpoints", note: "in backends I built solo" },
-  { value: 8, label: "Production domains", note: "live right now" },
+  { value: 9, label: "Production domains", note: "live right now" },
 ] as const

@@ -316,6 +316,7 @@ export const more: Project[] = [
     period: "Dec 2025 → Jan 2026",
     stack: ["React", "Framer Motion", "Lenis", "Cloudflare"],
     highlights: ["Products, coating systems, testing, oil & gas and water infrastructure pages"],
+    live: "https://steelpipes.sa",
     cover: img("14-steel-pipes-cover", "Industrial website with a steel pipe render"),
     features: [
       img("14-steel-pipes-feature-1", "Products and coating systems page with pipe cross-sections"),
