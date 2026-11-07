@@ -4,9 +4,11 @@
   padding: 0;
   border: 1px solid var(--border);
   border-radius: 24px;
+  max-width: calc(100vw - 24px);
   background: var(--card);
   color: var(--text);
   overflow: hidden;
+  overscroll-behavior: contain;
 }
 .dialog::backdrop {
   background: rgba(5, 9, 17, 0.72);
@@ -14,6 +16,12 @@
 }
 .dialog[open] {
   animation: rise 0.5s var(--ease-out);
+}
+@keyframes riseFlat {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
 @keyframes rise {
   from {
@@ -24,8 +32,11 @@
 .body {
   position: relative;
   max-height: calc(100dvh - 26px);
+  overflow-x: hidden; /* overflow-y:auto would otherwise make x scrollable too (iOS side-to-side bounce) */
   overflow-y: auto;
   overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
   padding: clamp(24px, 4vw, 48px);
   display: grid;
   gap: clamp(20px, 3vw, 32px);
@@ -42,6 +53,12 @@
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--heading);
+}
+.header,
+.cols > *,
+.meta dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .header {
   display: grid;
@@ -144,6 +161,9 @@
   opacity: 0.75;
 }
 @media (max-width: 800px) {
+  .dialog[open] {
+    animation-name: riseFlat;
+  }
   .cols,
   .features {
     grid-template-columns: 1fr;

@@ -60,7 +60,9 @@ body {
   overflow-x: hidden;
 }
 
-body.is-loading {
+body.is-loading,
+html.dialog-open,
+html.dialog-open body {
   overflow: hidden;
 }
 
