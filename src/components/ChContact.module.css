@@ -51,6 +51,18 @@
   border: 1px solid var(--border);
   background: rgba(23, 34, 53, 0.7);
 }
+.phone {
+  margin-top: 20px;
+  align-self: center;
+  color: var(--text);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+.phone:hover {
+  color: var(--heading);
+}
 .links {
   margin-top: 36px;
   display: flex;

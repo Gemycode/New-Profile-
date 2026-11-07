@@ -24,7 +24,7 @@ export function ChHow() {
       <div className={styles.top}>
         <Reveal id="how-title" className={styles.title} lines={["How I", "*work*"]} />
         <figure className={styles.portrait}>
-          <img src="/img/abdullah.webp" alt={`Portrait of ${site.name}`} width={720} height={763} loading="lazy" />
+          <img src="/img/abdullah.webp" alt={`Portrait of ${site.name}`} width={720} height={720} loading="lazy" />
           <figcaption>
             <span className={styles.status}>Available</span> {site.timezone}
           </figcaption>

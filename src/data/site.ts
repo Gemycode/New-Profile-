@@ -5,7 +5,8 @@ export const site = {
   title: "Backend-focused Full-Stack Engineer",
   location: "Egypt",
   timezone: "Cairo (GMT+2/+3)",
-  email: "abdallagamalph@gmail.com",
+  email: "abdullahgamal.pvt@gmail.com",
+  phone: { display: "+20 102 835 8352", href: "tel:+201028358352" },
   cv: "/abdullah-gamal-cv.pdf",
   links: [
     { label: "GitHub", href: "https://github.com/Gemycode" },

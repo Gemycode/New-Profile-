@@ -47,6 +47,10 @@ export function ChContact() {
         </span>
       </div>
 
+      <a href={site.phone.href} className={styles.phone}>
+        {site.phone.display}
+      </a>
+
       <ul className={styles.links}>
         {site.links.map((l) => (
           <li key={l.label}>
