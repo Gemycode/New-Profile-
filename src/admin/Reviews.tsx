@@ -123,7 +123,7 @@ export function Reviews({ mediaBase }: { mediaBase: string }) {
             <span className={s.handle} aria-hidden="true">
               ⋮⋮
             </span>
-            {r.image ? <img src={`${mediaBase}${r.image.key}-800.webp`} alt="" className={s.thumb} loading="lazy" /> : <span className={s.thumb} />}
+            {r.image ? <img loading="lazy" src={`${mediaBase}${r.image.key}-800.webp`} alt="" className={s.thumb} /> : <span className={s.thumb} />}
             <div className={s.itemText}>
               <strong dir="auto">
                 {sourceName(r)}

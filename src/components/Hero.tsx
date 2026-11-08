@@ -12,6 +12,10 @@ export function Hero({ ready, covers, chips, contact }: Props) {
   const rootRef = useRef<HTMLElement>(null)
   const [webgl, setWebgl] = useState(false)
   const [small] = useState(isSmallScreen)
+  // Decorative cards render only in the browser: kept out of the prerendered HTML so their
+  // images don't compete with the CSS and fonts on the first paint.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   // Lazy-load three.js only on capable, motion-friendly desktops.
   useEffect(() => {
@@ -64,7 +68,7 @@ export function Hero({ ready, covers, chips, contact }: Props) {
       </div>
 
       <div ref={sceneRef} className={styles.scene} aria-hidden="true" />
-      {!webgl && !small && (
+      {mounted && !webgl && !small && (
         <div className={styles.cssCards} aria-hidden="true">
           {covers.slice(0, 4).map((c, i) => (
             <img key={c} src={imgSrc(c, 800)} alt="" width={800} height={500} decoding="async" className={styles.cssCard} style={{ ["--n" as string]: i }} />
@@ -80,24 +84,28 @@ export function Hero({ ready, covers, chips, contact }: Props) {
       <div className={styles.content} style={ready ? undefined : { visibility: "hidden" }}>
         {ready && (
           <Reveal
-            as="h1"
-            id="hero-title"
+            as="p"
             className={styles.title}
             lines={["I build", "*systems*", "that scale."]}
           />
         )}
         {!ready && (
-          <h1 id="hero-title" className={`display ${styles.title}`} style={{ opacity: 0 }}>
+          <p className={`display ${styles.title}`} style={{ opacity: 0 }}>
             I build systems that scale.
-          </h1>
+          </p>
         )}
 
         <div className={styles.bottom}>
-          <p className={`${styles.role} fade-up ${ready ? "is-in" : ""}`} style={{ ["--d" as string]: "600ms" }}>
-            <span className={styles.name}>{contact.name}</span>
+          <h1 id="hero-title" className={`${styles.role} fade-up ${ready ? "is-in" : ""}`} style={{ ["--d" as string]: "600ms" }}>
+            <span className={styles.name}>
+              {contact.name}{" "}
+              <span lang="ar" dir="rtl" className={styles.ar}>
+                عبدالله جمال
+              </span>
+            </span>
             <span>{contact.title}</span>
             <span className={styles.muted}>Based in {contact.location} · Open to remote & freelance</span>
-          </p>
+          </h1>
           <div className={`${styles.side} fade-up ${ready ? "is-in" : ""}`} style={{ ["--d" as string]: "800ms" }}>
             <ul className={styles.chips} aria-label="Core stack">
               {chips.map((s) => (

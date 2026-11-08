@@ -239,6 +239,13 @@ button {
   transform: none;
 }
 
+/* Before JavaScript runs (prerendered HTML, crawlers, no-JS visitors) show the final state. */
+html:not(.js) .rv-inner,
+html:not(.js) .fade-up {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

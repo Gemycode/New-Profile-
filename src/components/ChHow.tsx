@@ -13,7 +13,7 @@ export function ChHow({ number, modes, steps, contact }: Props) {
       <div className={styles.top}>
         <Reveal id="how-title" className={styles.title} lines={["How I", "*work*"]} />
         <figure className={styles.portrait}>
-          <img src="/img/abdullah.webp" alt={`Portrait of ${contact.name}`} width={720} height={720} loading="lazy" />
+          <img loading="lazy" src="/img/abdullah.webp" alt={`Portrait of ${contact.name}`} width={720} height={720} />
           <figcaption>
             <span className={styles.status}>Available</span> {contact.timezone}
           </figcaption>

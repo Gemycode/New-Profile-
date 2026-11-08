@@ -48,6 +48,9 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
               {project.name}
             </h2>
             <p className={styles.tagline}>{project.tagline}</p>
+            <a href={`/projects/${project.slug}`} className={styles.caseLink}>
+              Open the full case study →
+            </a>
           </header>
 
           <img
@@ -102,7 +105,7 @@ export function ProjectDialog({ project, onClose }: { project: Project | null; o
 
           <div className={styles.features}>
             {project.features.map((f) => (
-              <img key={f.base} src={imgSrc(f.base, 1600)} srcSet={imgSrcSet(f.base)} sizes="(max-width: 900px) 100vw, 500px" alt={f.alt} loading="lazy" width={1600} height={1000} />
+              <img loading="lazy" key={f.base} src={imgSrc(f.base, 1600)} srcSet={imgSrcSet(f.base)} sizes="(max-width: 900px) 100vw, 500px" alt={f.alt} width={1600} height={1000} />
             ))}
           </div>
           <p className={styles.note}>Images are concept visuals made for this portfolio, not screenshots of the live product.</p>

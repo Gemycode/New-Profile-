@@ -362,5 +362,12 @@ export const small: SmallProject[] = [
 
 // `base` is either a built-in file name ("01-the-ride-cover" in /public/work) or an absolute
 // URL prefix from the API ("https://api…/media/projects/<id>"). Both have -800/-1600.webp variants.
-export const imgSrc = (base: string, w: 800 | 1600 = 800) => `${base.includes("/") ? base : `/work/${base}`}-${w}.webp`
+// The original portfolio images exist both in R2 ("…/media/work/<name>") and in /public/work; use the
+// same-origin copy (Firebase CDN, no extra connection). Images uploaded from the dashboard stay on the API.
+const SAME_ORIGIN_WORK = /^https?:\/\/[^/]+\/media\/work\/([a-z0-9-]+)$/
+export const imgSrc = (base: string, w: 800 | 1600 = 800) => {
+  const local = base.match(SAME_ORIGIN_WORK)?.[1]
+  const prefix = local ? `/work/${local}` : base.includes("/") ? base : `/work/${base}`
+  return `${prefix}-${w}.webp`
+}
 export const imgSrcSet = (base: string) => `${imgSrc(base, 800)} 800w, ${imgSrc(base, 1600)} 1600w`

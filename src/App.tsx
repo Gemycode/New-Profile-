@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { ScrollTrigger, startSmoothScroll } from "./lib/motion"
-import { useContent } from "./lib/content"
+import { staticContent, useContent, type Content } from "./lib/content"
 import { Preloader } from "./components/Preloader"
 import { Nav } from "./components/Nav"
 import { HirePill } from "./components/HirePill"
@@ -15,11 +15,43 @@ import { ChImpact } from "./components/ChImpact"
 import { ChReviews } from "./components/ChReviews"
 import { ChHow } from "./components/ChHow"
 import { ChContact } from "./components/ChContact"
+import { NotFound, ProjectPage } from "./components/ProjectPage"
 
-export default function App() {
-  const [ready, setReady] = useState(false)
+export type Route = { kind: "home" } | { kind: "project"; slug: string } | { kind: "notFound" }
+
+/** "/" → home, "/projects/<slug>" → case study, anything else → not found. */
+export function routeFor(pathname: string): Route {
+  const path = pathname.replace(/\/+$/, "") || "/"
+  if (path === "/" || path === "/index.html") return { kind: "home" }
+  const m = path.match(/^\/projects\/([a-z0-9-]+)$/)
+  return m ? { kind: "project", slug: m[1] } : { kind: "notFound" }
+}
+
+/** Projects that get their own page: the ones with enough material for a case study. */
+export const caseStudies = (c: Content) => [...c.featured, ...c.more]
+
+type Props = {
+  route: Route
+  /** Content the page was prerendered with (embedded in the HTML), so the first render matches it. */
+  initial?: Content
+  /** Rendering to static HTML at build time: show the final state, no preloader. */
+  prerender?: boolean
+}
+
+export default function App({ route, initial = staticContent, prerender = false }: Props) {
+  const c = useContent(initial)
+  if (route.kind === "project") {
+    const all = caseStudies(c)
+    const project = all.find((p) => p.slug === route.slug)
+    return project ? <ProjectPage project={project} all={all} contact={c.contact} /> : <NotFound name={c.contact.name} />
+  }
+  if (route.kind === "notFound") return <NotFound name={c.contact.name} />
+  return <Home c={c} prerender={prerender} />
+}
+
+function Home({ c, prerender }: { c: Content; prerender: boolean }) {
+  const [ready, setReady] = useState(prerender)
   const done = useCallback(() => setReady(true), [])
-  const c = useContent()
   const hasReviews = c.reviews.length > 0
 
   useEffect(() => {

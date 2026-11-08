@@ -122,7 +122,7 @@ export function Projects({ mediaBase }: { mediaBase: string }) {
                   <span className={s.handle} aria-hidden="true">
                     ⋮⋮
                   </span>
-                  <img src={`${mediaBase}${r.cover.key}-800.webp`} alt="" className={s.thumb} loading="lazy" />
+                  <img loading="lazy" src={`${mediaBase}${r.cover.key}-800.webp`} alt="" className={s.thumb} />
                   <div className={s.itemText}>
                     <strong>{r.name}</strong>
                     <span>{r.kind || r.tagline}</span>

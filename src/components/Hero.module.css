@@ -133,7 +133,14 @@
 .role {
   display: grid;
   gap: 2px;
+  margin: 0;
   color: var(--heading);
+  font: inherit; /* an <h1> for SEO, styled as the small identity block */
+}
+.ar {
+  margin-inline-start: 6px;
+  font-weight: 500;
+  color: var(--text);
 }
 .name {
   font-weight: 600;

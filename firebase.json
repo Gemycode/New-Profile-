@@ -9,8 +9,8 @@
     "cleanUrls": true,
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/admin/**",
+        "destination": "/admin.html"
       }
     ],
     "headers": [
@@ -127,6 +127,7 @@
           }
         ]
       }
-    ]
+    ],
+    "trailingSlash": false
   }
 }

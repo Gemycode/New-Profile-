@@ -72,11 +72,11 @@ export const staticContent: Content = {
   architecture,
 }
 
-// Empty string disables the API (the site then runs on the built-in content only).
-export const API_BASE: string = import.meta.env.VITE_API_BASE ?? "https://api.eng-abdullahgamal.site"
+// Empty string disables the API. `import.meta.env` is undefined when this module runs in the prerender step under Node.
+export const API_BASE: string = import.meta.env?.VITE_API_BASE ?? "https://api.eng-abdullahgamal.site"
 
 type ApiProject = Project & { tier: string }
-type ApiContent = {
+export type ApiContent = {
   projects: { featured: ApiProject[]; more: ApiProject[]; small: ApiProject[] }
   reviews: Review[]
   settings: Partial<Pick<Content, "metrics" | "heroChips" | "stack" | "principles" | "howModes" | "howSteps" | "problem" | "architecture">> & {
@@ -85,7 +85,7 @@ type ApiContent = {
 }
 
 /** Turns the API response into site content; anything the API doesn't have keeps its built-in value. */
-function merge(api: ApiContent): Content {
+export function merge(api: ApiContent): Content {
   const s = api.settings ?? {}
   const pick = <T,>(list: T[] | undefined, fallback: T[]) => (list && list.length ? list : fallback)
   return {
@@ -111,9 +111,12 @@ function merge(api: ApiContent): Content {
   }
 }
 
-/** Starts with the built-in content, then swaps in the published content from the API. */
-export function useContent(): Content {
-  const [content, setContent] = useState<Content>(staticContent)
+/**
+ * Starts with `initial` (the content the page was prerendered with, or the built-in content),
+ * then swaps in the published content from the API.
+ */
+export function useContent(initial: Content = staticContent): Content {
+  const [content, setContent] = useState<Content>(initial)
   useEffect(() => {
     if (!API_BASE) return
     const ctrl = new AbortController()

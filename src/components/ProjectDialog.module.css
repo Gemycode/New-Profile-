@@ -169,3 +169,10 @@
     grid-template-columns: 1fr;
   }
 }
+.caseLink {
+  justify-self: start;
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 0.95rem;
+}

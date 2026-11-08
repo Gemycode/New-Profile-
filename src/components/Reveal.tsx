@@ -14,8 +14,12 @@ type Props = {
 export function Reveal({ lines, as = "h2", className = "", delay = 0, id }: Props) {
   const [ref] = useInView<HTMLElement>({ threshold: 0.25 })
   let i = 0
+  // Lines are display:block; the " " between them keeps the text readable as one sentence
+  // for crawlers and screen readers ("I build systems that scale.", not "I buildsystems…").
   const content: ReactNode[] = lines.map((line, li) => (
-    <span className="rv-line" key={li}>
+    <Fragment key={li}>
+    {li > 0 ? " " : null}
+    <span className="rv-line">
       {line.split(" ").map((raw, wi) => {
         const italic = raw.startsWith("*") && raw.endsWith("*")
         const word = italic ? raw.slice(1, -1) : raw
@@ -32,6 +36,7 @@ export function Reveal({ lines, as = "h2", className = "", delay = 0, id }: Prop
         )
       })}
     </span>
+    </Fragment>
   ))
-  return createElement(as, { ref, id, className: `display ${className}`, "aria-label": lines.join(" ").replace(/\*/g, "") }, content)
+  return createElement(as, { ref, id, className: `display ${className}` }, content)
 }

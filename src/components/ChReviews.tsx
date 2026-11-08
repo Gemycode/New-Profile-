@@ -83,7 +83,7 @@ function Card({ review: r, index, onZoom }: { review: Review; index: number; onZ
     <li ref={ref} className={`${styles.card} fade-up`} style={{ ["--d" as string]: `${(index % 3) * 90}ms` }}>
       {r.image && (
         <button className={styles.shot} onClick={onZoom} aria-label={`Enlarge review screenshot${r.clientName ? ` from ${r.clientName}` : ""}`}>
-          <img src={imgSrc(r.image.base, 800)} srcSet={imgSrcSet(r.image.base)} sizes="(max-width: 700px) 85vw, 420px" alt={r.image.alt} loading="lazy" />
+          <img loading="lazy" src={imgSrc(r.image.base, 800)} srcSet={imgSrcSet(r.image.base)} sizes="(max-width: 700px) 85vw, 420px" alt={r.image.alt} />
         </button>
       )}
       <div className={styles.meta}>

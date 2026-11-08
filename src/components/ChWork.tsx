@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react"
 import { imgSrc, type Project, type SmallProject } from "../data/projects"
 import { gsap, isCoarsePointer, prefersReducedMotion, useInView } from "../lib/motion"
 import { Chapter } from "./Chapter"
@@ -46,7 +46,7 @@ export function ChWork({ number, featured, more, small }: Props) {
         </ol>
         <div ref={previewRef} className={`${styles.preview} ${hover !== null ? styles.previewOn : ""}`} aria-hidden="true">
           {featured.map((p, i) => (
-            <img key={p.slug} src={imgSrc(p.cover.base, 800)} alt="" className={hover === i ? styles.shown : ""} loading="lazy" />
+            <img loading="lazy" key={p.slug} src={imgSrc(p.cover.base, 800)} alt="" width={800} height={500} className={hover === i ? styles.shown : ""} />
           ))}
         </div>
       </div>
@@ -62,7 +62,7 @@ export function ChWork({ number, featured, more, small }: Props) {
       <ul className={styles.small}>
         {small.map((s) => (
           <li key={s.name}>
-            <img src={imgSrc(s.cover.base, 800)} alt={s.cover.alt} loading="lazy" width={800} height={500} />
+            <img loading="lazy" src={imgSrc(s.cover.base, 800)} alt={s.cover.alt} width={800} height={500} />
             <div>
               <strong>{s.name}</strong>
               <span>{s.what}</span>
@@ -81,7 +81,8 @@ function Row({ project, index, onOpen, onHover }: { project: Project; index: num
   const [ref] = useInView<HTMLLIElement>({ threshold: 0.4 })
   return (
     <li ref={ref} className={`${styles.row} fade-up`} onPointerEnter={onHover}>
-      <button className={styles.rowBtn} onClick={onOpen} onFocus={onHover} aria-haspopup="dialog">
+      {/* A real link to the case study (crawlable, works in a new tab); a plain click opens the dialog. */}
+      <a href={`/projects/${project.slug}`} className={styles.rowBtn} onClick={(e) => openInPlace(e, onOpen)} onFocus={onHover} aria-haspopup="dialog">
         <span className={styles.num}>{String(index + 1).padStart(2, "0")}</span>
         <span className={styles.rowName}>{project.name}</span>
         <span className={styles.rowKind}>{project.kind}</span>
@@ -90,29 +91,36 @@ function Row({ project, index, onOpen, onHover }: { project: Project; index: num
           <br />
           {project.period}
         </span>
-        <img className={styles.rowThumb} src={imgSrc(project.cover.base, 800)} alt="" loading="lazy" />
+        <img loading="lazy" className={styles.rowThumb} src={imgSrc(project.cover.base, 800)} alt="" width={800} height={500} />
         <span className={styles.arrow} aria-hidden="true">
           ↗
         </span>
-      </button>
+      </a>
     </li>
   )
+}
+
+/** Opens the dialog for a normal click; lets modified clicks (new tab, etc.) follow the link. */
+function openInPlace(e: MouseEvent, open: () => void) {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+  e.preventDefault()
+  open()
 }
 
 function MoreCard({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
   const [ref] = useInView<HTMLLIElement>({ threshold: 0.2 })
   return (
     <li ref={ref} className="fade-up" style={{ ["--d" as string]: `${(index % 3) * 90}ms` }}>
-      <button className={styles.card} onClick={onOpen} aria-haspopup="dialog">
+      <a href={`/projects/${project.slug}`} className={styles.card} onClick={(e) => openInPlace(e, onOpen)} aria-haspopup="dialog">
         <span className={styles.cardImg}>
-          <img src={imgSrc(project.cover.base, 800)} alt={project.cover.alt} loading="lazy" width={800} height={500} />
+          <img loading="lazy" src={imgSrc(project.cover.base, 800)} alt={project.cover.alt} width={800} height={500} />
         </span>
         <span className={styles.cardText}>
           <strong>{project.name}</strong>
           <span>{project.kind}</span>
         </span>
         {project.live && <span className={styles.live}>Live</span>}
-      </button>
+      </a>
     </li>
   )
 }
@@ -122,7 +130,7 @@ function CardStack({ picks }: { picks: Project[] }) {
   return (
     <div className={styles.stack} aria-hidden="true">
       {picks.map((p, i) => (
-        <img key={p.slug} src={imgSrc(p.cover.base, 800)} alt="" style={{ ["--k" as string]: i }} loading="lazy" />
+        <img loading="lazy" key={p.slug} src={imgSrc(p.cover.base, 800)} alt="" width={800} height={500} style={{ ["--k" as string]: i }} />
       ))}
     </div>
   )

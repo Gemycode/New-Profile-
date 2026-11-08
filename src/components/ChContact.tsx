@@ -70,7 +70,10 @@ export function ChContact({ number, contact }: { number: number; contact: Contac
 
       <footer className={styles.footer}>
         <span>
-          © {new Date().getFullYear()} {contact.fullName}
+          © {new Date().getFullYear()} {contact.fullName} ·{" "}
+          <span lang="ar" dir="rtl">
+            عبدالله جمال
+          </span>
         </span>
         <span>{contact.title} · {contact.location}</span>
       </footer>

@@ -3,6 +3,7 @@
 
 # build output (built in CI)
 /dist
+/dist-ssr
 
 # env files
 .env*
